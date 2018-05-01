@@ -39,28 +39,20 @@ foodRouter.get('/api/food/:id', (request, response, next) => {
     .catch(next);
 });
 
-foodRouter.delete('/api/food/:id?', (request, response) => {
+
+foodRouter.delete('/api/food/:id?', (request, response, next) => {
   logger.log(logger.INFO, 'FOOD-ROUTER: DELETE - Processing a request');
 
   if (!request.params.id) {
     logger.log(logger.INFO, 'FOOD-ROUTER: DELETE - Responding with a 400 error code (!req.params.id');
-    return response.sendStatus(400);
+    return next(new HttpErrors(400, 'No id entered'));
   }
   Food.findByIdAndRemove(request.params.id)
     .then(() => {
       logger.log(logger.INFO, 'FOOD-ROUTER: DELETE - Responding with a 204 status');
       return response.sendStatus(204);
     })
-    .catch((error) => {
-      if (error.message.toLowerCase().indexOf('cast to objectid failed') > -1) {
-        logger.log(logger.INFO, 'FOOD-ROUTER: DELETE - Responding with a 404 status - objectId');
-        logger.log(logger.VERBOSE, `Could not parse the specific object id ${request.params.id}`);
-        return response.sendStatus(404);
-      }
-      logger.log(logger.ERROR, 'FOOD-ROUTER: __DELETE_ERROR__ Returning a 500 status code');
-      logger.log(logger.ERROR, `FOOD-ROUTER: ${error}`);
-      return response.sendStatus(500);
-    });
+    .catch(next);
   return undefined;
 });
 

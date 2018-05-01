@@ -12,19 +12,19 @@ export default (error, request, response, next) => { // eslint-disable-line no-u
   }
   const errorMessage = error.message.toLowerCase();
 
-  if (errorMessage.include('objectid failed')) {
+  if (errorMessage.includes('objectid failed')) {
     logger.log(logger.INFO, 'Responding with 404');
     return response.sendStatus(404);
   }
-  if (errorMessage.include('validation failed')) {
+  if (errorMessage.includes('validation failed')) {
     logger.log(logger.INFO, 'Responding with 400');
     return response.sendStatus(400);
   }
-  if (errorMessage.include('duplicate key')) {
+  if (errorMessage.includes('duplicate key')) {
     logger.log(logger.INFO, 'Responding with 409');
     return response.sendStatus(409);
   }
-  if (errorMessage.include('unauthorized')) {
+  if (errorMessage.includes('unauthorized')) {
     logger.log(logger.INFO, 'Responding with 401');
     return response.sendStatus(401);
   }
