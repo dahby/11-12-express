@@ -67,13 +67,6 @@ describe('/api/food', () => {
           expect(response.status).toEqual(404);
         });
     });
-    test('should respond 404 if bad id', () => {
-      return superagent.get(`${apiURL}/badId`)
-        .then(Promise.reject)
-        .catch((response) => {
-          expect(response.status).toEqual(404);
-        });
-    });
   });
   describe('DELETE /api/food', () => {
     test('should respond with 204 if no errors', () => {
