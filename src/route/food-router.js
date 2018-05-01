@@ -33,7 +33,7 @@ foodRouter.get('/api/food/:id', (request, response) => {
   return Food.findById(request.params.id)
     .then((food) => {
       if (!food) {
-        logger.log(logger.info, 'FOOD-ROUTER: GET - Responding with a 404 status code - (!note)');
+        logger.log(logger.info, 'FOOD-ROUTER: GET - Responding with a 404 status code - (!food)');
         return response.sendStatus(404);
       }
       logger.log(logger.INFO, 'FOOD-ROUTER: GET - Responding with a 200 status code');
